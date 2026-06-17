@@ -16,7 +16,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Argus — Quickstart · proband.xyz</title>
+<title>Argus ◇ Quickstart · proband.xyz</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Fraunces:opsz,wght,SOFT@9..144,200..900,0..100&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -1225,14 +1226,14 @@
   <!-- MASTHEAD -->
   <header class="masthead">
     <div class="folio-row">
-      <span>Quickstart &mdash; <em>v0.1, first public release</em></span>
+      <span>Quickstart ◇ <em>v0.1, first public release</em></span>
       <span>Gateway in isolation. Twenty lines of Python.</span>
       <span>2026</span>
     </div>
     <div class="masthead-row grid-12">
       <div class="mark">
         proband<span style="color:var(--signal); margin: 0 2px;">.</span>xyz
-        <em>&mdash;&nbsp; an adversarial-research lab</em>
+        <em>· adversarial-research lab</em>
       </div>
       <nav class="primary" aria-label="primary">
         <a href="#install">Install</a>
@@ -1263,10 +1264,9 @@
           <span class="tagline">A refusal-trained gateway<br>for IAM agents.</span>
         </h1>
         <p class="install-note">
-          <em>660&nbsp;MB of LoRA on bf16 <span class="em-ink">Llama-3.3-70B-Instruct</span>.
-          Pip gives you the gateway and the defense layers. The repo gives you
-          everything else &mdash; the probes, the examples, and a Docker stack
-          with Keycloak, Postgres, Gitea, and the rest of the simulated IAM.</em>
+          <em>660&nbsp;MB of LoRA, sitting on bf16 <span class="em-ink">Llama-3.3-70B-Instruct</span>.
+          PyPI has the gateway plus the runtime defenses. Probes, examples, and
+          the seven-service Docker stack are in the repo.</em>
         </p>
 
         <!-- Hairline SVG &mdash; the watching eye of Argus Panoptes -->
@@ -1291,11 +1291,11 @@
         <div class="cover-card">
           <span class="heading">What's in v0.1</span>
           <p>
-            <span class="signal">The baseline</span> ships SFT only &mdash; the
-            strongest checkpoint the locked training recipe could produce. Three
-            harder variants stack additional training on top: a counter-corpus,
-            then Constitutional AI, then Representation Rerouting. Each will
-            publish its own numbers when it's ready.
+            <span class="signal">The baseline</span> is SFT only. It's the
+            strongest checkpoint the locked recipe can produce. Three harder
+            variants are planned, each adding another training method on top:
+            a counter-corpus, Constitutional AI SL, or Representation Rerouting.
+            They'll publish their numbers as they land.
           </p>
         </div>
 
@@ -1338,17 +1338,16 @@
 
       <div class="grid-12">
         <p class="quickstart-lede">
-          Bootstrap handles the venv, the Metal check, and the seven-service
-          Docker stack. Then quickstart.py loads the adapter on top of
-          Llama-3.3-70B-Instruct and sends one offboarding request to the
-          gateway. The gateway responds with text. Tool schemas live on the
-          executor side, not the gateway side; that's why the gateway cannot
-          call anything even when it approves.
+          Bootstrap sets up the venv, runs the Metal check, and brings up the
+          seven-service Docker stack. quickstart.py then loads the adapter onto
+          Llama-3.3-70B-Instruct and sends a single offboarding request. The
+          model answers in text. Tool schemas only ever go to the executor, so
+          the gateway has nothing it could call even on APPROVE.
         </p>
 
         <div class="code-block-wrap">
           <div class="code-block-cap">
-            <span class="left">Listing i. &mdash; gateway.py</span>
+            <span class="left">Listing i. ◇ gateway.py</span>
             <span class="right">python 3.10+ &nbsp;·&nbsp; mlx-lm &nbsp;·&nbsp; mac only</span>
           </div>
 <pre class="code" aria-label="quickstart gateway"><span class="ln">1</span><span class="kw">from</span> mlx_lm <span class="kw">import</span> load, generate
@@ -1452,10 +1451,9 @@
 
       <div class="grid-12">
         <p class="arch-lede">
-          The gateway and the executor are different models. The gateway gets
-          the user prompt and decides yes-or-no in text. The executor gets the
-          resolved intent and the tool schemas; it never sees the original
-          prompt. If the gateway refuses, the executor isn't called.
+          Two separate models. The user prompt never reaches the executor; the
+          tool schemas never reach the gateway. If the gateway refuses, nothing
+          else runs.
         </p>
 
         <ol class="stage-list" aria-label="argus stages">
@@ -1515,8 +1513,8 @@
             <span class="num">Stage iii.</span>
             <div class="desc">
               <strong>Tool layer.</strong> Actual invocation against Keycloak,
-              Postgres, Gitea, the filesystem &mdash; or refusal text shown to
-              the user.
+              Postgres, Gitea, the filesystem. Or refusal text shown to the
+              user.
             </div>
             <div class="emits">
               state-diff:<br>
@@ -1581,7 +1579,7 @@
                 <td>175</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
-                <td class="verdict pass">Pass <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm);letter-spacing:0.04em;text-transform:none;font-size:14px;">&mdash;&nbsp;5 of 6</em></td>
+                <td class="verdict pass">Pass <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm);letter-spacing:0.04em;text-transform:none;font-size:14px;">◇&nbsp;5 of 6</em></td>
               </tr>
               <tr>
                 <td class="cat">
@@ -1619,10 +1617,9 @@
 
       <div class="grid-12">
         <p class="roadmap-lede">
-          Baseline is the SFT-only checkpoint. Harder variants add a
-          counter-corpus (deliberative), Constitutional AI SL (constitutional),
-          or Representation Rerouting (rr) on top. Each publishes its own
-          numbers when it's ready.
+          The baseline is the SFT-only checkpoint. The family adds three more
+          training methods, one variant at a time. Each ships with its own
+          numbers when it's done.
         </p>
 
         <dl class="roadmap-spec" aria-label="argus roadmap">
@@ -1646,7 +1643,7 @@
           <dd>For researchers without a Mac Studio. Sub-ten-minute quickstart.</dd>
           <div class="stat pending">TBD</div>
 
-          <dt>Documentation site <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm);font-size:14px;">&mdash;&nbsp;proband.xyz/argus</em></dt>
+          <dt>Documentation site <em style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--warm);font-size:14px;">◇&nbsp;proband.xyz/argus</em></dt>
           <dd>Full documentation. Harness, defenses, evaluation methodology.</dd>
           <div class="stat pending">Pending</div>
         </dl>
@@ -1710,9 +1707,9 @@
           <div class="note-block">
             <span class="k">Disclosure</span>
             <p>
-              When a measured attack class breaks the published gateway, the
-              corresponding probe catalog stays private until a defense &mdash;
-              a hardened variant or a runtime layer &mdash; ships alongside it.
+              If a measured attack class breaks the published gateway, the
+              catalog stays private. It ships when a fix lands: a hardened
+              gateway variant, or a runtime layer that catches the class.
             </p>
           </div>
           <div class="note-block">
@@ -1729,14 +1726,14 @@
 
     <!-- VI — INVITATION -->
     <section class="invitation grid-12" aria-labelledby="invite-title">
-      <div class="kicker">vi &mdash; the door is open</div>
+      <div class="kicker">vi ◇ the door is open</div>
       <h2 id="invite-title">
-        GitHub for the code. <em>HuggingFace</em> for the model.
+        Code on GitHub, <em>model on HuggingFace.</em>
       </h2>
       <nav class="links" aria-label="primary actions">
-        <a href="https://huggingface.co/proband-xyz/argus-baseline-v3-prod-r2">HuggingFace <em>&mdash; the gateway adapter</em></a>
-        <a href="https://github.com/proband-xyz/argus">GitHub <em>&mdash; source &amp; harness</em></a>
-        <a href="https://github.com/proband-xyz/argus/issues">Open an issue <em>&mdash; or a PR</em></a>
+        <a href="https://huggingface.co/proband-xyz/argus-baseline-v3-prod-r2">HuggingFace <em>(the gateway adapter)</em></a>
+        <a href="https://github.com/proband-xyz/argus">GitHub <em>(source and harness)</em></a>
+        <a href="https://github.com/proband-xyz/argus/issues">Open an issue <em>(or send a PR)</em></a>
       </nav>
     </section>
   </main>
@@ -1777,7 +1774,7 @@
       </div>
     </div>
     <div class="colophon-foot">
-      <span>proband.xyz &mdash; argus quickstart &mdash; v0.1 &mdash; 2026</span>
+      <span>proband.xyz ◇ argus quickstart ◇ v0.1 ◇ 2026</span>
       <span><em>llama 3.3 community license &nbsp; · &nbsp; apple silicon</em></span>
     </div>
   </footer>

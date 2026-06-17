@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 132 132" fill="none">
+  <style>
+    .stroke { stroke: #181513; stroke-width: 6; fill: none; }
+    .pupil { fill: #181513; }
+    .highlight { fill: #EFE9DD; }
+    @media (prefers-color-scheme: dark) {
+      .stroke { stroke: #EFE9DD; }
+      .pupil { fill: #EFE9DD; }
+      .highlight { fill: #181513; }
+    }
+  </style>
+  <circle class="stroke" cx="66" cy="66" r="60" />
+  <path class="stroke" d="M 8 66 Q 66 14 124 66 Q 66 118 8 66 Z" />
+  <circle class="stroke" cx="66" cy="66" r="22" />
+  <circle class="pupil" cx="66" cy="66" r="11" />
+  <circle class="highlight" cx="62" cy="62" r="3.5" />
+</svg>
