@@ -29,7 +29,7 @@
     --ink-soft: #3A3430;
     --rule: #C9BFAB;
     --signal: #B85C3B;
-    --warm: #6B5A4A;
+    --warm: #4A3D32;
 
     --grid-cols: 12;
     --grid-gap: 28px;
@@ -404,9 +404,10 @@
   .code-block-wrap {
     grid-column: var(--col-body-start) / var(--col-side-end);
     position: relative;
+    background: var(--bone-deep);
     border-top: 1px solid var(--ink);
     border-bottom: 1px solid var(--ink);
-    padding: 36px 0 36px 0;
+    padding: 32px 28px 36px;
     margin-bottom: 40px;
   }
 
@@ -627,8 +628,8 @@
     font-family: "Cormorant Garamond", serif;
     font-style: italic;
     font-weight: 300;
-    font-size: 13px;
-    letter-spacing: 0.28em;
+    font-size: 14px;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--warm);
   }
@@ -1458,7 +1459,7 @@
 
         <ol class="stage-list" aria-label="argus stages">
           <li>
-            <span class="num">Stage i.</span>
+            <span class="num">Stage 1</span>
             <div class="desc">
               <strong>Gateway.</strong> Base Llama-3.3-70B with the
               <em>argus-baseline</em> LoRA adapter. Decides on the request.
@@ -1473,7 +1474,7 @@
             </div>
           </li>
           <li>
-            <span class="num">Stage i.&nbsp;5</span>
+            <span class="num">Stage 1.5</span>
             <div class="desc">
               <strong>Intent critic.</strong> Small adversarial judge
               (Qwen2.5-7B-Instruct-4bit, default). Reads the resolved INTENT and
@@ -1486,7 +1487,7 @@
             </div>
           </li>
           <li>
-            <span class="num">Stage ii.</span>
+            <span class="num">Stage 2</span>
             <div class="desc">
               <strong>Executor.</strong> Base Llama-3.3-70B, <em>no adapter.</em>
               Reads the resolved INTENT and the tool schemas. Emits a JSON tool
@@ -1497,7 +1498,7 @@
             </div>
           </li>
           <li>
-            <span class="num">Stage ii.&nbsp;5</span>
+            <span class="num">Stage 2.5</span>
             <div class="desc">
               <strong>Audit-namespace guard.</strong> Schema-layer check. Blocks
               tool calls in a registered sensitive-tool set when the target
@@ -1510,7 +1511,7 @@
             </div>
           </li>
           <li>
-            <span class="num">Stage iii.</span>
+            <span class="num">Stage 3</span>
             <div class="desc">
               <strong>Tool layer.</strong> Actual invocation against Keycloak,
               Postgres, Gitea, the filesystem. Or refusal text shown to the
