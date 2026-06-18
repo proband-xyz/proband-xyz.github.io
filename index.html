@@ -715,6 +715,141 @@
     .arch-aside { grid-template-columns: 1fr; }
   }
 
+  /* DEFENSES ---------------------------------------------------------- */
+  section.defenses {
+    padding: 110px 0 130px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .defenses .chapter-head .chapter-num { grid-column: var(--col-mark-start) / var(--col-mark-end); }
+  .defenses .chapter-head h2 { grid-column: var(--col-body-start) / var(--col-side-end); }
+
+  .defense-lede {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    margin: -36px 0 56px;
+    max-width: 56ch;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--warm);
+  }
+
+  ol.defense-list {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+  }
+
+  ol.defense-list > li {
+    display: grid;
+    grid-template-columns: 5ch 1fr;
+    column-gap: 28px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+
+  ol.defense-list .num {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 22px;
+    color: var(--signal);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  ol.defense-list .body h3 {
+    margin: 0 0 16px;
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 36, "wght" 360, "SOFT" 80;
+    font-size: 22px;
+    line-height: 1.25;
+    color: var(--ink);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+  }
+
+  ol.defense-list .body p {
+    margin: 0 0 14px;
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 24, "wght" 330, "SOFT" 60;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  ol.defense-list .body p.refs {
+    margin: 0;
+    padding-top: 8px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--warm);
+  }
+
+  ol.defense-list .body p.refs .k,
+  .defense-context .k {
+    font-family: "Fraunces", serif;
+    font-style: normal;
+    font-variation-settings: "opsz" 9, "wght" 380;
+    font-size: 10.5px;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-right: 10px;
+  }
+
+  ol.defense-list .body p.refs a,
+  .defense-context a {
+    color: var(--ink);
+    font-style: normal;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+  }
+
+  ol.defense-list .body p.refs a:hover,
+  .defense-context a:hover {
+    color: var(--signal);
+    border-color: var(--signal);
+  }
+
+  .defense-note {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    margin-top: 48px;
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 24, "wght" 340, "SOFT" 60;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink);
+    max-width: 64ch;
+  }
+
+  .defense-context {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    margin-top: 28px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--warm);
+    max-width: 64ch;
+  }
+
+  @media (max-width: 760px) {
+    ol.defense-list > li {
+      grid-template-columns: 1fr;
+      row-gap: 16px;
+    }
+  }
+
   /* DEFENSE PROFILE --------------------------------------------------- */
   section.findings {
     padding: 110px 0 130px;
@@ -1240,7 +1375,8 @@
         <a href="#install">Install</a>
         <a href="#gateway">Gateway</a>
         <a href="#architecture">Architecture</a>
-        <a href="#defense">Defense</a>
+        <a href="#defenses">Defenses</a>
+        <a href="#defense">Profile</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#use">Use</a>
         <a href="https://github.com/proband-xyz/argus">Repo</a>
@@ -1540,11 +1676,129 @@
       </div>
     </section>
 
-    <!-- IV — DEFENSE PROFILE -->
-    <section class="findings" id="defense" aria-labelledby="defense-title">
+    <!-- IV — DEFENSES -->
+    <section class="defenses" id="defenses" aria-labelledby="defenses-title">
       <div class="chapter-head grid-12">
         <div class="chapter-num">
           iii.
+          <span class="label">Defenses</span>
+        </div>
+        <h2 class="chapter-title" id="defenses-title">
+          Built up in four layers. <em>Each with research behind it.</em>
+        </h2>
+      </div>
+
+      <div class="grid-12">
+        <p class="defense-lede">
+          Argus is hardened in four places. One is structural. One is trained
+          into the model. Two are runtime layers that compose on top.
+        </p>
+
+        <ol class="defense-list">
+          <li>
+            <span class="num">i</span>
+            <div class="body">
+              <h3>Decoupled gateway and executor</h3>
+              <p>
+                Two isolated models, each blind to the other's input. The
+                gateway only ever receives user prompts. The executor only
+                ever receives resolved intents and the matching tool schemas.
+                A refused prompt cannot reach a tool call.
+              </p>
+              <p class="refs">
+                <span class="k">Lineage</span>
+                Dual-LLM pattern
+                (<a href="https://simonwillison.net/2023/Apr/25/dual-llm-pattern/">Willison 2023</a>).
+                CaMeL
+                (<a href="https://arxiv.org/abs/2503.18813">Debenedetti et al. 2025</a>).
+                Plan-then-Execute
+                (<a href="https://arxiv.org/abs/2509.08646">Wu et al. 2025</a>).
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <span class="num">ii</span>
+            <div class="body">
+              <h3>Refusal training on the IAM threat model</h3>
+              <p>
+                The LoRA is trained on a corpus of IAM-specific harmful
+                requests, drawn from MITRE ATT&amp;CK Enterprise techniques
+                and from patterns documented in Verizon DBIR and Mandiant
+                M-Trends. Refusals target privilege escalation, audit-log
+                tampering, RBAC violations, and confused-deputy patterns.
+                Not generic harm categories.
+              </p>
+              <p class="refs">
+                <span class="k">Lineage</span>
+                <a href="https://attack.mitre.org/matrices/enterprise/">MITRE ATT&amp;CK Enterprise</a>.
+                <a href="https://atlas.mitre.org/">MITRE ATLAS</a>.
+                AgentHarm (Andriushchenko et al., NeurIPS 2024) for benchmark
+                methodology.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <span class="num">iii</span>
+            <div class="body">
+              <h3>An orthogonal judge model</h3>
+              <p>
+                A separate Qwen2.5-7B-Instruct-4bit reviews the gateway's
+                resolved intent before the executor runs. Different model
+                family from the Llama gateway, so the critic's failure modes
+                don't correlate with the gateway's. When the critic
+                disagrees with an APPROVE, it overrides to REJECT.
+              </p>
+              <p class="refs">
+                <span class="k">Tradition</span>
+                Independent-model review for safety-critical decisions, in
+                line with standard defense-in-depth practice.
+              </p>
+            </div>
+          </li>
+
+          <li>
+            <span class="num">iv</span>
+            <div class="body">
+              <h3>Schema-layer namespace check</h3>
+              <p>
+                A thirty-line Python check sits after the executor. When a
+                tool call targets a principal in a registered audit-stack
+                namespace (audit.*, compliance.*, sox.*), the call is
+                blocked regardless of what the gateway and executor decided.
+                Structural defense, not language judgment.
+              </p>
+              <p class="refs">
+                <span class="k">Tradition</span>
+                ACL enforcement at the schema layer is the standard
+                mechanism in production IAM systems.
+              </p>
+            </div>
+          </li>
+        </ol>
+
+        <p class="defense-note">
+          For an attack to land in a real tool call, all four defenses would
+          need to fail on the same probe. Each defense ships with the
+          framework and is probed independently in the defense profile below.
+        </p>
+
+        <p class="defense-context">
+          <span class="k">Wider context</span>
+          Safety training has documented limits in the general case
+          (Wei et al. 2024, Casper et al. 2024). The standard response is
+          to stack defenses with different failure surfaces. Bisconti et al.
+          2024 catalogues the broader agentic-safety risk inventory.
+        </p>
+      </div>
+    </section>
+
+    <!-- V — DEFENSE PROFILE -->
+    <section class="findings" id="defense" aria-labelledby="defense-title">
+      <div class="chapter-head grid-12">
+        <div class="chapter-num">
+          iv.
           <span class="label">Defense profile</span>
         </div>
         <h2 class="chapter-title" id="defense-title">
@@ -1604,11 +1858,11 @@
       </div>
     </section>
 
-    <!-- V — ROADMAP -->
+    <!-- VI — ROADMAP -->
     <section class="roadmap" id="roadmap" aria-labelledby="roadmap-title">
       <div class="chapter-head grid-12">
         <div class="chapter-num">
-          iv.
+          v.
           <span class="label">What's next</span>
         </div>
         <h2 class="chapter-title" id="roadmap-title">
@@ -1664,11 +1918,11 @@
       </div>
     </section>
 
-    <!-- V — RESPONSIBLE USE -->
+    <!-- VII — RESPONSIBLE USE -->
     <section class="responsibility" id="use" aria-labelledby="use-title">
       <div class="chapter-head grid-12">
         <div class="chapter-num">
-          v.
+          vi.
           <span class="label">Responsible use</span>
         </div>
         <h2 class="chapter-title" id="use-title">
@@ -1725,9 +1979,9 @@
       </div>
     </section>
 
-    <!-- VI — INVITATION -->
+    <!-- VIII — INVITATION -->
     <section class="invitation grid-12" aria-labelledby="invite-title">
-      <div class="kicker">vi ◇ the door is open</div>
+      <div class="kicker">vii ◇ the door is open</div>
       <h2 id="invite-title">
         Code on GitHub, <em>model on HuggingFace.</em>
       </h2>
@@ -1754,6 +2008,7 @@
         <ul>
           <li><a href="#gateway">Gateway in 20 lines</a></li>
           <li><a href="#architecture">Architecture</a></li>
+          <li><a href="#defenses">Defenses</a></li>
           <li><a href="#defense">Defense profile</a></li>
         </ul>
       </div>
