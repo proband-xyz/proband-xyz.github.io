@@ -1,0 +1,99 @@
+/* Shared styling for proband.xyz Open Graph image templates.
+   Each template renders at 1200×630 (Slack/X/LinkedIn preview spec).
+   Visual identity inherits from index.html. */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Fraunces:opsz,wght,SOFT@9..144,200..900,0..100&display=swap');
+
+:root {
+  --bone: #EFE9DD;
+  --bone-deep: #E5DECE;
+  --ink: #181513;
+  --ink-soft: #3A3430;
+  --warm: #4A3D32;
+  --signal: #B85C3B;
+  --rule: #C9BFAB;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 1200px;
+  height: 630px;
+  background: var(--bone);
+  color: var(--ink);
+  overflow: hidden;
+  font-family: "Fraunces", serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.frame {
+  width: 1200px;
+  height: 630px;
+  padding: 56px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.mast {
+  font-family: "Fraunces", serif;
+  font-variation-settings: "opsz" 9, "wght" 360;
+  font-size: 14px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.mast em {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 18px;
+  color: var(--ink-soft);
+  margin-left: 14px;
+}
+
+.title {
+  font-family: "Fraunces", serif;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+
+.title .dot { color: var(--signal); }
+
+.tagline {
+  margin-top: 28px;
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink-soft);
+}
+
+.foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: "Fraunces", serif;
+  font-variation-settings: "opsz" 9, "wght" 360;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.foot em {
+  font-family: "Cormorant Garamond", serif;
+  font-style: italic;
+  font-weight: 300;
+  text-transform: none;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: var(--warm);
+}

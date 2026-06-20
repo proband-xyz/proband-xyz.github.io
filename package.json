@@ -1,0 +1,12 @@
+{
+  "name": "proband-xyz",
+  "private": true,
+  "type": "module",
+  "description": "Source for proband.xyz. Static GitHub Pages site. The dev tooling here is only for generating Open Graph preview images.",
+  "scripts": {
+    "og": "node scripts/render-og.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.58.0"
+  }
+}
