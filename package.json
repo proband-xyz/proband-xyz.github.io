@@ -2,11 +2,13 @@
   "name": "proband-xyz",
   "private": true,
   "type": "module",
-  "description": "Source for proband.xyz. Static GitHub Pages site. The dev tooling here is only for generating Open Graph preview images.",
+  "description": "Source for proband.xyz. Static GitHub Pages site. The dev tooling here is for Open Graph preview images and the markdown-to-HTML build for the defenses page.",
   "scripts": {
-    "og": "node scripts/render-og.mjs"
+    "og": "node scripts/render-og.mjs",
+    "build": "node scripts/build-page.mjs"
   },
   "devDependencies": {
+    "marked": "^15.0.0",
     "playwright": "^1.58.0"
   }
 }
