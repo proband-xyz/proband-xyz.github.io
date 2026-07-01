@@ -174,6 +174,31 @@
 
   @media (max-width: 860px) { nav.primary { display: none; } }
 
+  nav.primary a.here {
+    color: var(--ink);
+    border-bottom: 1px solid var(--signal);
+    padding-bottom: 2px;
+  }
+
+  /* SECTION SUB-NAV (index) ------------------------------------------- */
+  .subnav { border-top: 1px solid var(--rule); padding: 12px 0 14px; }
+  .subnav-inner {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 26px;
+  }
+  .subnav a {
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 9, "wght" 320, "SOFT" 60;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .subnav a:hover { color: var(--signal); }
+  @media (max-width: 860px) { .subnav { display: none; } }
+
   /* CHAPTER HEADS ----------------------------------------------------- */
   .chapter-head {
     align-items: baseline;
@@ -1372,12 +1397,18 @@
   <!-- MASTHEAD -->
   <header class="masthead">
     <div class="folio-row">
-      <span>Quickstart ◇ <em>v0.1, first public release</em></span>
-      <span>Gateway in isolation. Twenty lines of Python.</span>
-      <span>2026</span>
+      <span>proband.xyz <span style="margin:0 4px">◇</span> argus</span>
     </div>
     <div class="masthead-row grid-12">
       <nav class="primary" aria-label="primary">
+        <a href="/index.html" class="here">Argus</a>
+        <a href="/labs/">Labs</a>
+        <a href="https://github.com/proband-xyz/argus">Code</a>
+        <a href="https://huggingface.co/proband-xyz">Model</a>
+      </nav>
+    </div>
+    <nav class="subnav grid-12" aria-label="sections">
+      <div class="subnav-inner">
         <a href="#install">Install</a>
         <a href="#gateway">Gateway</a>
         <a href="#architecture">Architecture</a>
@@ -1385,9 +1416,8 @@
         <a href="#defense">Profile</a>
         <a href="#roadmap">Roadmap</a>
         <a href="#use">Use</a>
-        <a href="/defenses/postcondition-only-prompting.html">Labs</a>
-      </nav>
-    </div>
+      </div>
+    </nav>
   </header>
 
   <main>

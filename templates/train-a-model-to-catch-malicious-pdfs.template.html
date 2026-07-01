@@ -1,29 +1,33 @@
 <!doctype html>
 <!--
-  Page: DEFENDING THE SEAM — POSTCONDITION-ONLY PROMPTING
-  Rationale: defense-pedagogy page for security engineers operating an Argus
-             deployment (and, by analogue, monolithic agents). Spine: seven
-             cross-discipline convergence patterns; case study: POP.
-  Voice match: inherits index.html exactly. Fraunces / Cormorant Garamond
-               italic / IBM Plex Mono on bone / ink / signal terracotta.
-  CSS: forked from index.html for self-containment. If/when a shared
-       stylesheet is extracted to /css/proband.css, both pages link to it.
+  Page: LABS — TRAIN A MODEL TO CATCH MALICIOUS PDFs
+  Rationale: hands-on defense-building lab. Teach an open 22B model (Mistral-
+             Small) a real content-defense — a small LoRA that flags adversarial
+             PDF content — and verify it on leak-free data. Spine: build the
+             defense, then prove the defense is genuine.
+  Voice match: inherits index.html / the POP defenses page exactly. Fraunces /
+               Cormorant Garamond italic / IBM Plex Mono on bone / ink / signal
+               terracotta.
+  CSS: forked from the POP template for self-containment, plus a small block of
+       lab-specific additions (figure, compare-grid, confusion-grid) appended at
+       the end of the <style>. If/when a shared stylesheet is extracted to
+       /css/proband.css, all pages link to it.
 -->
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Postcondition-Only Prompting · proband.xyz/labs</title>
-<meta name="description" content="An attack on tool-using LLM agents that hides the action verb in the constraint set. Seven recurring shapes, four standard validators that miss them, four defense layers that compose against them, and three labs you can take to your own stack." />
+<title>Train a model to catch malicious PDFs · proband.xyz/labs</title>
+<meta name="description" content="A hands-on lab: train a small LoRA adapter that teaches an open 22B model (Mistral-Small) to flag adversarial PDF content, then verify the defense is real and not an artifact of a leaky benchmark. Runs locally on Apple Silicon." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://proband.xyz/labs/postcondition-only-prompting.html" />
-<meta property="og:title" content="Postcondition-only prompting — Defenses for tool-using LLM agents" />
-<meta property="og:description" content="An attack that hides the action verb in the constraint set. Seven recurring shapes, four standard validators that miss them, four defense layers that compose, three labs." />
-<meta property="og:image" content="https://proband.xyz/og/defenses-postcondition-only-prompting.png" />
+<meta property="og:url" content="https://proband.xyz/labs/train-a-model-to-catch-malicious-pdfs.html" />
+<meta property="og:title" content="Train a model to catch malicious PDFs — a defense-building lab" />
+<meta property="og:description" content="A hands-on lab: see how a payload is hidden in a PDF, train a 55 MB adapter that takes an open 22B model from catching 40% of them to 92%, verify the defense is real, then prove it yourself." />
+<meta property="og:image" content="https://proband.xyz/og/labs-train-a-model-to-catch-malicious-pdfs.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://proband.xyz/og/defenses-postcondition-only-prompting.png" />
+<meta name="twitter:image" content="https://proband.xyz/og/labs-train-a-model-to-catch-malicious-pdfs.png" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1569,6 +1573,224 @@
     .colophon-foot { flex-direction: column; gap: 12px; align-items: flex-start; }
   }
 
+  /* ===== PDF-LAB ADDITIONS ========================================== */
+
+  /* defense-list body links (assignment references) ------------------- */
+  ol.defense-list .body p a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 1px;
+  }
+  ol.defense-list .body p a:hover { color: var(--signal); border-color: var(--signal); }
+
+  /* FIGURE (loss curve) — mirrors the code-block-wrap framing ---------- */
+  .figure-wrap {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    background: var(--bone-deep);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 28px 28px 30px;
+    margin: 40px 0;
+  }
+  .figure-wrap .figure-cap {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+    gap: 16px;
+  }
+  .figure-wrap .figure-cap .left {
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 9, "wght" 380;
+    font-size: 10.5px;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .figure-wrap .figure-cap .right {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 15px;
+    color: var(--warm);
+  }
+  .figure-wrap img.loss-figure { display: block; width: 100%; height: auto; }
+  .figure-wrap .figure-note {
+    margin: 22px 0 0;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--warm);
+    max-width: 60ch;
+  }
+
+  /* PARAM-LIST — annotated command flags ------------------------------ */
+  dl.param-list {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    margin: 0 0 8px;
+    display: grid;
+    grid-template-columns: minmax(15ch, 23ch) 1fr;
+    column-gap: 28px;
+    row-gap: 0;
+    border-top: 1px solid var(--ink);
+  }
+  dl.param-list dt {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    color: var(--signal);
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    white-space: nowrap;
+  }
+  dl.param-list dd {
+    margin: 0;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--rule);
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 18, "wght" 330, "SOFT" 60;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  dl.param-list dd em {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--warm);
+  }
+  dl.param-list dd code {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    color: var(--warm);
+    background: var(--bone-deep);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  @media (max-width: 760px) {
+    dl.param-list { grid-template-columns: 1fr; }
+    dl.param-list dt { border-bottom: none; padding-bottom: 2px; }
+    dl.param-list dd { padding-top: 4px; }
+  }
+
+  /* COMPARE-GRID — leaky vs hardened prompt, side by side -------------- */
+  .compare-grid {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 28px;
+    row-gap: 24px;
+    margin: 36px 0;
+  }
+  .compare-panel { border-top: 1px solid var(--ink); padding-top: 16px; }
+  .compare-panel .tag {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .compare-panel .tag .k {
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 9, "wght" 380;
+    font-size: 10.5px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .compare-panel.leaky .tag .k { color: var(--signal); }
+  .compare-panel.hardened .tag .k { color: var(--ink-soft); }
+  .compare-panel .tag .verdict {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14.5px;
+    color: var(--warm);
+  }
+  .compare-panel pre {
+    margin: 0;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    line-height: 1.65;
+    color: var(--ink);
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: var(--bone);
+    padding: 16px;
+    border-left: 2px solid var(--rule);
+  }
+  .compare-panel.leaky pre { border-left-color: var(--signal); }
+  .compare-panel pre .leak { color: var(--signal); font-weight: 500; }
+  .compare-panel pre .com  { color: var(--warm); font-style: italic; }
+  .compare-panel.attack .tag .k { color: var(--signal); }
+  .compare-panel.attack pre { border-left-color: var(--signal); }
+  .compare-panel.benign .tag .k { color: var(--ink-soft); }
+  .compare-panel.benign pre { border-left-color: var(--rule); }
+  @media (max-width: 760px) { .compare-grid { grid-template-columns: 1fr; } }
+
+  /* CONFUSION READ-OUT — small labelled cells ------------------------- */
+  .confusion-grid {
+    grid-column: var(--col-body-start) / var(--col-side-end);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 28px;
+    row-gap: 16px;
+    margin: 28px 0 8px;
+    border-top: 1px solid var(--ink);
+    padding-top: 24px;
+  }
+  .confusion-cell {
+    padding: 18px 20px;
+    background: var(--bone-deep);
+    border-left: 2px solid var(--rule);
+  }
+  .confusion-cell.good { border-left-color: var(--ink); }
+  .confusion-cell.bad  { border-left-color: var(--signal); }
+  .confusion-cell .n {
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 72, "wght" 300;
+    font-size: 34px;
+    line-height: 1;
+    color: var(--ink);
+    font-feature-settings: "onum" on, "pnum" on;
+  }
+  .confusion-cell.bad .n { color: var(--signal); }
+  .confusion-cell .lbl {
+    display: block;
+    margin-top: 10px;
+    font-family: "Fraunces", serif;
+    font-variation-settings: "opsz" 9, "wght" 380;
+    font-size: 10px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .confusion-cell .gloss {
+    display: block;
+    margin-top: 8px;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 14.5px;
+    line-height: 1.45;
+    color: var(--warm);
+  }
+  @media (max-width: 760px) { .confusion-grid { grid-template-columns: 1fr; } }
+
+  /* RESULTS-TABLE emphasis helpers ------------------------------------ */
+  table.folio-table td.num {
+    font-variant-numeric: oldstyle-nums proportional-nums;
+    font-feature-settings: "onum" on, "pnum" on;
+  }
+  table.folio-table .delta-up {
+    color: var(--signal);
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+  }
+  table.folio-table tr.highlight td { background: rgba(184, 92, 59, 0.06); }
+
 </style>
 </head>
 <body>
@@ -1578,7 +1800,7 @@
   <!-- MASTHEAD -->
   <header class="masthead">
     <div class="folio-row">
-      <span>proband.xyz <span style="margin:0 4px">◇</span> labs <span style="margin:0 4px">◇</span> postcondition-only prompting</span>
+      <span>proband.xyz <span style="margin:0 4px">◇</span> labs <span style="margin:0 4px">◇</span> train a model to catch malicious PDFs</span>
     </div>
     <div class="masthead-row grid-12">
       <nav class="primary" aria-label="primary">
@@ -1617,10 +1839,10 @@
       <div class="col-c">
         <h5>This page</h5>
         <ul>
-          <li><a href="#patterns">Seven patterns</a></li>
-          <li><a href="#defenses">What does work</a></li>
-          <li><a href="#monolithic">Monolithic agents</a></li>
-          <li><a href="#lab-audit">Self-audit</a></li>
+          <li><a href="#payloads">The payloads</a></li>
+          <li><a href="#lab-train">Train the adapter</a></li>
+          <li><a href="#evidence">Does it catch them</a></li>
+          <li><a href="#your-threat">Your own threat</a></li>
         </ul>
       </div>
       <div class="col-d">
@@ -1634,9 +1856,9 @@
 
     </div>
     <div class="colophon-foot">
-      <span>proband.xyz ◇ labs ◇ postcondition-only prompting ◇ v0.1 ◇ 2026</span>
+      <span>proband.xyz ◇ labs ◇ train a model to catch malicious PDFs ◇ v0.1 ◇ 2026</span>
       <span>Built by <em><a href="https://robotswhocare.com">robotswhocare.com</a></em></span>
-      <span><em>llama 3.3 community license &nbsp; · &nbsp; apple silicon</em></span>
+      <span><em>apache-2.0 base &nbsp; · &nbsp; apple silicon</em></span>
     </div>
   </footer>
 

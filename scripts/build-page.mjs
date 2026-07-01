@@ -1,16 +1,17 @@
 #!/usr/bin/env node
-// Build defenses/postcondition-only-prompting.html from its markdown source.
+// Build the proband.xyz longform pages from their markdown sources.
 //
-// Inputs:
-//   content/postcondition-only-prompting.md           — editable source
-//   templates/postcondition-only-prompting.template.html — page chrome with
-//                                                          a {{ content }}
-//                                                          placeholder
+// Each entry pairs an editable markdown source with a chrome template that
+// carries a `<!-- {{ content }} -->` marker. The markdown's leading HTML
+// comment (an editor note) is stripped, the body is run through marked, and
+// the result is injected into the template.
 //
-// Output:
-//   defenses/postcondition-only-prompting.html
+//   npm run build
+//
+// To add a page: create content/<slug>.md + templates/<slug>.template.html and
+// append an entry to PAGES below.
 
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile, mkdir } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { marked } from 'marked';
@@ -18,9 +19,18 @@ import { marked } from 'marked';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, '..');
 
-const CONTENT  = join(REPO_ROOT, 'content',   'postcondition-only-prompting.md');
-const TEMPLATE = join(REPO_ROOT, 'templates', 'postcondition-only-prompting.template.html');
-const OUTPUT   = join(REPO_ROOT, 'defenses',  'postcondition-only-prompting.html');
+const PAGES = [
+  {
+    content:  'content/postcondition-only-prompting.md',
+    template: 'templates/postcondition-only-prompting.template.html',
+    output:   'labs/postcondition-only-prompting.html',
+  },
+  {
+    content:  'content/train-a-model-to-catch-malicious-pdfs.md',
+    template: 'templates/train-a-model-to-catch-malicious-pdfs.template.html',
+    output:   'labs/train-a-model-to-catch-malicious-pdfs.html',
+  },
+];
 
 marked.setOptions({
   // Leave inline HTML alone; don't sanitize.
@@ -29,21 +39,24 @@ marked.setOptions({
   pedantic: false,
 });
 
-const [markdown, template] = await Promise.all([
-  readFile(CONTENT, 'utf8'),
-  readFile(TEMPLATE, 'utf8'),
-]);
+const MARKER = '<!-- {{ content }} -->';
 
-// Strip the leading HTML comment header (build-time note for the editor).
-const content = markdown.replace(/^<!--[\s\S]*?-->\s*/, '');
+for (const page of PAGES) {
+  const [markdown, template] = await Promise.all([
+    readFile(join(REPO_ROOT, page.content), 'utf8'),
+    readFile(join(REPO_ROOT, page.template), 'utf8'),
+  ]);
 
-const rendered = marked.parse(content);
+  // Strip the leading HTML comment header (build-time note for the editor).
+  const content = markdown.replace(/^<!--[\s\S]*?-->\s*/, '');
+  const rendered = marked.parse(content);
 
-if (!template.includes('<!-- {{ content }} -->')) {
-  throw new Error(`template is missing the '<!-- {{ content }} -->' marker`);
+  if (!template.includes(MARKER)) {
+    throw new Error(`${page.template} is missing the '${MARKER}' marker`);
+  }
+
+  const outPath = join(REPO_ROOT, page.output);
+  await mkdir(dirname(outPath), { recursive: true });
+  await writeFile(outPath, template.replace(MARKER, rendered));
+  console.log(`wrote ${page.output}`);
 }
-
-const html = template.replace('<!-- {{ content }} -->', rendered);
-
-await writeFile(OUTPUT, html);
-console.log(`wrote ${OUTPUT}`);

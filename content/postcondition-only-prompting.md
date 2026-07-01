@@ -1,5 +1,5 @@
 <!--
-  Source content for /defenses/postcondition-only-prompting.html.
+  Source content for /labs/postcondition-only-prompting.html.
 
   Workflow:
     1. Edit prose paragraphs below as plain markdown text.
@@ -7,7 +7,7 @@
        paragraphs with a blank line. Inline HTML tags (<code>, <em>,
        <strong>, <a>) work as-is.
     2. Run: npm run build
-    3. Commit the regenerated HTML at defenses/postcondition-only-prompting.html.
+    3. Commit the regenerated HTML at labs/postcondition-only-prompting.html.
 
   Structural HTML (tables, code blocks, audit list, etc.) stays as raw HTML.
   The build script (scripts/build-page.mjs) wraps this content in the chrome

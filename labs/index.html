@@ -1,0 +1,239 @@
+<!doctype html>
+<!--
+  Page: LABS INDEX — proband.xyz/labs
+  The hub for hands-on labs. Add a lab by copying a <li> block in ol.lab-index.
+  Chrome (fonts, palette, masthead, colophon) matches the lab pages. Hand-
+  authored; not built by scripts/build-page.mjs.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Labs · proband.xyz</title>
+<meta name="description" content="Hands-on labs on attacking and defending LLM agents — each a self-contained walk-through you can run on your own hardware." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://proband.xyz/labs/" />
+<meta property="og:title" content="Labs — proband.xyz" />
+<meta property="og:description" content="Hands-on labs on attacking and defending LLM agents. Train defenses into open models you control, and run them yourself." />
+<meta property="og:image" content="https://proband.xyz/og/index.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Fraunces:opsz,wght,SOFT@9..144,200..900,0..100&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bone:#EFE9DD; --bone-deep:#E5DECE; --ink:#181513; --ink-soft:#3A3430;
+    --rule:#C9BFAB; --signal:#B85C3B; --warm:#4A3D32;
+    --grid-gap:28px; --col-mark-start:1; --col-body-start:3; --col-side-end:12;
+  }
+  *,*::before,*::after { box-sizing:border-box; }
+  html,body { margin:0; padding:0; background:var(--bone); color:var(--ink); }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:"Fraunces",serif;
+    font-variation-settings:"opsz" 14,"wght" 320,"SOFT" 60;
+    font-size:17px; line-height:1.6;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  ::selection { background:var(--signal); color:var(--bone); }
+  a { color:inherit; text-decoration:none; }
+  .folio { max-width:1180px; margin:0 auto; padding:0 56px; }
+  .grid-12 { display:grid; grid-template-columns:repeat(12,1fr); column-gap:var(--grid-gap); }
+  @media (max-width:720px) { .folio { padding:0 24px; } }
+
+  /* MASTHEAD */
+  header.masthead { padding:28px 0 0; border-bottom:1px solid var(--rule); }
+  .folio-row {
+    display:flex; justify-content:space-between;
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-size:12.5px;
+    color:var(--warm); letter-spacing:0.06em; padding:8px 0 6px;
+  }
+  .masthead-row { align-items:baseline; padding:6px 0 22px; }
+  .masthead-row .mark { grid-column:var(--col-body-start) / span 6; }
+  .masthead-row .primary { grid-column:span 4 / var(--col-side-end); justify-self:end; }
+  .mark {
+    font-family:"Fraunces",serif; font-variation-settings:"opsz" 9,"wght" 300,"SOFT" 80;
+    font-size:13px; letter-spacing:0.42em; text-transform:uppercase; color:var(--ink);
+  }
+  .mark em {
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:400;
+    letter-spacing:0.04em; text-transform:none; font-size:15px; color:var(--warm); margin-left:12px;
+  }
+  nav.primary { display:flex; gap:32px; align-items:baseline; }
+  nav.primary a {
+    font-family:"Fraunces",serif; font-variation-settings:"opsz" 9,"wght" 300,"SOFT" 60;
+    font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:var(--ink-soft);
+  }
+  nav.primary a:hover { color:var(--signal); }
+  nav.primary a.here { color:var(--ink); border-bottom:1px solid var(--signal); padding-bottom:2px; }
+  @media (max-width:860px) { nav.primary { display:none; } }
+
+  /* HERO */
+  section.hero { padding:96px 0 60px; border-bottom:1px solid var(--rule); }
+  .hero h1 {
+    margin:0; font-family:"Fraunces",serif;
+    font-variation-settings:"opsz" 144,"wght" 240,"SOFT" 90;
+    font-size:clamp(64px,12vw,150px); line-height:0.94; letter-spacing:0.005em; color:var(--ink);
+  }
+  .hero h1 .dot { color:var(--signal); }
+  .hero .lede {
+    margin:28px 0 0; max-width:46ch;
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:300;
+    font-size:clamp(20px,2.6vw,28px); line-height:1.3; color:var(--ink-soft);
+  }
+
+  /* LAB INDEX */
+  ol.lab-index { list-style:none; margin:0; padding:0; }
+  ol.lab-index > li { border-bottom:1px solid var(--rule); }
+  ol.lab-index a {
+    display:grid; grid-template-columns:6ch 1fr; column-gap:32px; align-items:baseline;
+    padding:44px 0; transition:padding-left 220ms ease;
+  }
+  ol.lab-index a:hover { padding-left:12px; }
+  ol.lab-index .num {
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:300;
+    font-size:32px; color:var(--warm); line-height:1; font-feature-settings:"onum" on;
+  }
+  ol.lab-index a:hover .num { color:var(--signal); }
+  ol.lab-index .title {
+    display:block; font-family:"Fraunces",serif;
+    font-variation-settings:"opsz" 72,"wght" 300,"SOFT" 90;
+    font-size:clamp(28px,4vw,44px); line-height:1.05; color:var(--ink); letter-spacing:0.008em;
+  }
+  ol.lab-index a:hover .title { color:var(--signal); }
+  ol.lab-index .kicker {
+    display:block; margin:14px 0 0; max-width:58ch;
+    font-family:"Fraunces",serif; font-variation-settings:"opsz" 24,"wght" 330,"SOFT" 60;
+    font-size:17px; line-height:1.5; color:var(--ink);
+  }
+  ol.lab-index .meta {
+    display:flex; flex-wrap:wrap; gap:10px 12px; align-items:center; margin:20px 0 0;
+  }
+  ol.lab-index .tag {
+    font-family:"Fraunces",serif; font-variation-settings:"opsz" 9,"wght" 380;
+    font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--ink-soft);
+    border:1px solid var(--rule); border-radius:2px; padding:3px 9px;
+  }
+  ol.lab-index .time {
+    margin-left:auto; font-family:"Cormorant Garamond",serif; font-style:italic;
+    font-weight:300; font-size:15px; color:var(--warm);
+  }
+  @media (max-width:760px) {
+    ol.lab-index a { grid-template-columns:1fr; row-gap:8px; padding:32px 0; }
+    ol.lab-index .time { margin-left:0; }
+  }
+
+  /* COLOPHON */
+  footer.colophon { border-top:1px solid var(--rule); padding:56px 0 64px; margin-top:80px; }
+  .colophon-grid { display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px 48px; }
+  .colophon-grid h5 {
+    margin:0 0 12px; font-family:"Fraunces",serif; font-variation-settings:"opsz" 9,"wght" 380;
+    font-size:10.5px; letter-spacing:0.34em; text-transform:uppercase; color:var(--ink-soft); font-weight:400;
+  }
+  .colophon-grid p, .colophon-grid li {
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:300;
+    font-size:15.5px; line-height:1.55; color:var(--warm); margin:0 0 6px; max-width:32ch;
+  }
+  .colophon-grid ul { list-style:none; padding:0; margin:0; }
+  .colophon-grid a:hover { color:var(--signal); }
+  .colophon-foot {
+    margin-top:44px; padding-top:22px; border-top:1px solid var(--rule);
+    display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    font-family:"Fraunces",serif; font-variation-settings:"opsz" 9,"wght" 360;
+    font-size:11px; letter-spacing:0.3em; text-transform:uppercase; color:var(--warm);
+  }
+  .colophon-foot em {
+    font-family:"Cormorant Garamond",serif; font-style:italic; font-weight:300;
+    letter-spacing:0.04em; text-transform:none; font-size:14px;
+  }
+  .colophon-foot a:hover { color:var(--signal); }
+</style>
+</head>
+<body>
+<div class="folio">
+
+  <header class="masthead">
+    <div class="folio-row">
+      <span>proband.xyz <span style="margin:0 4px">◇</span> labs</span>
+    </div>
+    <div class="masthead-row grid-12">
+      <nav class="primary" aria-label="primary">
+        <a href="/index.html">Argus</a>
+        <a href="/labs/" class="here">Labs</a>
+        <a href="https://github.com/proband-xyz/argus">Code</a>
+        <a href="https://huggingface.co/proband-xyz">Model</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Labs<span class="dot">.</span></h1>
+      <p class="lede">Hands-on walk-throughs on attacking and defending LLM agents. Each one you can run on your own hardware.</p>
+    </section>
+
+    <ol class="lab-index" aria-label="labs">
+      <li>
+        <a href="/labs/postcondition-only-prompting.html">
+          <span class="num">01</span>
+          <span class="body">
+            <span class="title">Postcondition-only prompting<span class="dot" style="color:var(--signal)">.</span></span>
+            <span class="kicker">An attack on tool-using agents that hides the action verb in the constraint set, the four validators that miss it, and the defenses that compose against it.</span>
+            <span class="meta">
+              <span class="tag">prompt-injection</span>
+              <span class="tag">defenses</span>
+              <span class="tag">agents</span>
+              <span class="time">~25 min + labs</span>
+            </span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a href="/labs/train-a-model-to-catch-malicious-pdfs.html">
+          <span class="num">02</span>
+          <span class="body">
+            <span class="title">Catch malicious PDFs<span class="dot" style="color:var(--signal)">.</span></span>
+            <span class="kicker">Train a small adapter that teaches an open 22-billion-parameter model to catch a directive hidden inside a document, then verify the defense is real and not a benchmark grading its own work.</span>
+            <span class="meta">
+              <span class="tag">training</span>
+              <span class="tag">prompt-injection</span>
+              <span class="tag">defenses</span>
+              <span class="time">~20 min + labs</span>
+            </span>
+          </span>
+        </a>
+      </li>
+    </ol>
+  </main>
+
+  <footer class="colophon">
+    <div class="colophon-grid">
+      <div>
+        <h5>The Lab</h5>
+        <p>proband.xyz is an independent lab building open substrates for adversarial agent research.</p>
+      </div>
+      <div>
+        <h5>Argus</h5>
+        <ul>
+          <li><a href="/index.html">The substrate</a></li>
+          <li><a href="/index.html#architecture">Architecture</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Repo</h5>
+        <ul>
+          <li><a href="https://github.com/proband-xyz/argus">Source</a></li>
+          <li><a href="https://github.com/proband-xyz/argus/issues">Issues</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="colophon-foot">
+      <span>proband.xyz ◇ labs ◇ 2026</span>
+      <span>Built by <em><a href="https://robotswhocare.com">robotswhocare.com</a></em></span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
